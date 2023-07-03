@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select point</title>
+    <meta charset="utf-8">
+    <link href="static/bootstrap.min.css" rel="stylesheet">
+ 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.10.0/dist/tf.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
+<style>
+	img {display: none;}
+    </style>
+    	<script>
+	$(document).ready(function() {
+			var counter = 0;
+			var A,B;
+			var canvas =  document.getElementById("canvas");
+			
+			var context = canvas.getContext('2d');
+			var img =  document.getElementById("img");
+			canvas.width = img.width;
+			canvas.height = img.height;
+			context.drawImage(img,0,0,canvas.width, canvas.height)
+			$('#canvas').click(function(event) {
+				var x = event.pageX - $(this).offset().left;
+				var y = event.pageY - $(this).offset().top;
+
+				if (counter == 0) {
+					$('#x1').val(Math.floor(x)*2);
+					$('#y1').val(Math.floor(y)*2);
+					A = {x,y };
+					counter += 1;
+		
+				} else if (counter == 1){
+					$('#x2').val(Math.floor(x)*2);
+					$('#y2').val(Math.floor(y)*2);
+					B = {x,y};
+					counter += 1;
+				}
+                                  else if (counter == 2){
+					$('#x3').val(Math.floor(x)*2);
+					$('#y3').val(Math.floor(y)*2);
+					C = {x,y};
+					counter += 1;
+				}
+                                  else if (counter == 3){
+					$('#x4').val(Math.floor(x)*2);
+					$('#y4').val(Math.floor(y)*2);
+					D = {x,y};
+					counter = 0;
+                                }
+					context.clearRect(0, 0, canvas.width, canvas.height);
+					context.drawImage(img,0,0,canvas.width, canvas.height)
+                                        context.beginPath();
+					context.strokeStyle = "red";
+                                          
+					context.lineWidth = 2;
+					
+                                        context.arc(A.x,A.y,2,0,2*Math.PI,false)
+                                        context.arc(B.x,B.y,2,0,2*Math.PI,false)
+					context.arc(C.x,C.y,2,0,2*Math.PI,false)
+                                        context.arc(D.x,D.y,2,0,2*Math.PI,false)
+                                        context.arc(A.x,A.y,2,0,2*Math.PI,false)
+					context.stroke();
+									
+			});
+			
+		});
+	
+	</script>
+</head>
+
+<body>
+	
+
+	<h1>Chọn vùng nhận dạng phương tiện</h1>
+
+	<form method="POST" action="" class="Sl">
+		<div class="form-group">
+			<label>Toa do (1):</label>
+                	<input type="text"  name="x1" id="x1" value="{{request.form.x1 }}"> 
+                      	<input type="text"  name="y1" id="y1" value="{{request.form.y1 }}"> 
+		</div>
+		<div class="form-group">
+			<label>Toa do (2):</label>
+                	<input type="text"  name="x2" id="x2" value="{{request.form.x2 }}">
+                        <input type="text"  name="y2" id="y2" value="{{request.form.y2 }}">
+		</div>
+                <div class="form-group">
+			<label>Toa do (3):</label>
+                	<input type="text"  name="x3" id="x3" value="{{request.form.x3 }}">
+                        <input type="text"  name="y3" id="y3" value="{{request.form.y3 }}">
+		</div>
+		<div class="form-group">
+			<label>Toa do (4):</label>
+                	<input type="text"  name="x4" id="x4" value="{{request.form.x4 }}">
+                	<input type="text"  name="y4" id="y4" value="{{request.form.y4 }}">
+		</div>
+
+		<input type="submit" value="Luu">
+		
+	</form>
+	<canvas id="canvas"  style="border:1px solid #d3d3d3;"></canvas>
+        <img id="img" src="{{ url_for('static', filename='image/1.jpg') }}" width="961px" height="541" >
+        </div>
+</body>
+</html>
+
